@@ -1,0 +1,51 @@
+syntax = "proto3";
+option go_package = ".;protobuffer_def";
+
+import "google/protobuf/any.proto";
+
+
+// protoc ./protobuffer_def/comapi-service.proto  --proto_path=./protobuffer_def/ --micro_out=./protobuffer_def/ --go_out=plugins=grpc:./protobuffer_def/
+service ComApiServer {
+    rpc BaseInterface(BaseRequest) returns (BaseResponse) {}
+}
+
+enum CMD {
+    QUERY_USERS_BY_ROOM                                 = 0;       //根据房间查找用户列表
+}
+
+ enum ReturnCode {
+    SUCCESS                                            = 0;       //成功
+    UNKOWN_CMD                                         = 1;       //未知的指令
+    BODY_IS_NULL                                       = 2;       //body为空
+    DESERIALIZATION_ERROR                              = 3;       //反序列化异常
+    SERIALIZATION_ERROR                                = 4;       //序列化异常
+    UNKOWN_ERROR                                       = 5;       //未知错误
+}
+
+message BaseRequest {
+    string                   requestId                 = 1;       //请求ID
+    CMD                      c                         = 2;       //请求指令
+    google.protobuf.Any      body                      = 3;       //参数
+}
+
+message BaseResponse {
+    string                    requestId                = 1;       //响应ID
+    ReturnCode                code                     = 2 ;      //状态码
+    string                    desc                     = 3;       //描述
+    CMD                       c                        = 4;       //指令
+    google.protobuf.Any       body                     = 5;       //响应结构体
+}
+
+//根据roomid查询  请求
+message QueryUsersByRoomReq{
+    string roomId    =1 ;
+}
+
+//根据roomid查询  响应
+message QueryUserByRoomRsp{
+    message UserInfo {
+        string userId  = 1 ;
+    }
+    repeated UserInfo userInfos =1  ;
+}
+

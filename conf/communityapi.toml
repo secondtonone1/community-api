@@ -1,0 +1,46 @@
+title = "login toml config file"
+
+[base]
+    web_addr = "0.0.0.0:9091"
+    grpc_addr = "127.0.0.1:9092"
+    service_name = "api-service"
+    root_dir = "D:/workspace/community-api"
+    var_dir = "D:/workspace/community-api"
+
+[log_conf]
+    project = "community-api"
+    name = "main"
+    log_dir  = "/log"
+    log_level = "info"
+    max_day = 7
+    rotate_seconds = 3600
+    extname=""
+
+[database]
+    [database.community-api]
+        mysql_master_conf = "root:root@tcp(192.168.34.105:3306)/pscc?timeout=15s"
+        mysql_slave_conf = "root:root@tcp(192.168.34.105:3306)/pscc?timeout=15s"
+        enable = 1
+    max_open_conn = 50
+    max_idle_conn = 20
+    max_life_time = 3600
+
+[register_center]
+    address = ["127.0.0.1:2181"]
+    timeout = 5
+
+[redis_conf]
+    lua_path="E:/goproject/community-api/src/resources"
+    redis_model = 1
+    single_redis_host="127.0.0.1:65530"
+    single_redis_db = 0
+    single_redis_PoolSize=50
+    single_redis_MinIdleConns=50
+    single_redis_password=""
+
+    cluster_redis_host=["172.31.1.20:30000", "172.31.1.20:30001", "172.31.1.20:30002", "172.31.1.20:30003", "172.31.1.20:30004", "172.31.1.20:30005", "172.31.1.20:30006"]
+    cluster_redis_PoolSize=50
+    cluster_redis_MinIdleConns=50
+    cluster_redis_password=""
+
+
